@@ -10,10 +10,22 @@ const sendMessage = asyncHandler(async (req, res) => {
     console.log("Invalid data passed");
     return res.sendStatus(400);
   }
+  let currentdate = new Date();
+  var datetime =
+    currentdate.getDate() +
+    "/" +
+    (currentdate.getMonth() + 1) +
+    "/" +
+    currentdate.getFullYear() +
+    " " +
+    currentdate.getHours() +
+    ":" +
+    currentdate.getMinutes();
   var newMessage = {
     sender: req.user._id,
     content: content,
     chat: chatId,
+    time: datetime,
   };
   try {
     var message = await Message.create(newMessage);

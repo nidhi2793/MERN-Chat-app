@@ -1,12 +1,12 @@
 import React from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import { useState } from "react";
-import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
+import { Avatar, Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect } from "react";
 import { GrFormAdd } from "react-icons/gr";
 import ChatLoading from "./ChatLoading";
-import { getSender } from "../../config/ChatLogics";
+import { getSender, getSenderPic } from "../../config/ChatLogics";
 import GroupChatModal from "./GroupChatModal";
 
 function MyChats({ fetchAgain }) {
@@ -27,7 +27,7 @@ function MyChats({ fetchAgain }) {
         "http://localhost:5000/api/chat",
         config
       );
-      console.log(data);
+
       setChats(data);
     } catch (error) {
       toast({
@@ -101,11 +101,46 @@ function MyChats({ fetchAgain }) {
                 borderRadius="lg"
                 key={chat._id}
               >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {!chat.isGroupChat && (
+                    <Avatar
+                      mt={"2px"}
+                      mr={1}
+                      size={"sm"}
+                      cursor={"default"}
+                      name={getSender(loggedUser, chat.users)}
+                      src={getSenderPic(loggedUser, chat.users)}
+                    />
+                  )}
+                  {chat.isGroupChat && (
+                    <Avatar
+                      mt={"2px"}
+                      mr={1}
+                      size={"sm"}
+                      cursor={"default"}
+                      name={chat.chatName}
+                    />
+                  )}
+                  <Text>
+                    {!chat.isGroupChat
+                      ? getSender(loggedUser, chat.users)
+                      : chat.chatName}
+                  </Text>
+                </div>
+
+                {chat.latestMessage && (
+                  <Text fontSize="xs">
+                    <b>
+                      {chat.latestMessage.sender.name === loggedUser.name
+                        ? "You"
+                        : chat.latestMessage.sender.name}{" "}
+                      :{" "}
+                    </b>
+                    {chat.latestMessage.content.length > 50
+                      ? chat.latestMessage.content.substring(0, 51) + "..."
+                      : chat.latestMessage.content}
+                  </Text>
+                )}
               </Box>
             ))}
           </Stack>

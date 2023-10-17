@@ -63,6 +63,8 @@ const Login = () => {
         position: "bottom",
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
+      setEmail("");
+      setPassword("");
       setLoading(false);
       navigate("/chats");
     } catch (error) {
@@ -75,6 +77,8 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
+      setEmail("");
+      setPassword("");
       setLoading(false);
     }
   };

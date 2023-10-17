@@ -29,6 +29,10 @@ import { useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 import ChatLoading from "./ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
+import { getSender } from "../../config/ChatLogics";
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
+import logo from "../../assets/logo.png";
 
 function SideDrawer() {
   const [search, setSearch] = useState("");
@@ -36,7 +40,15 @@ function SideDrawer() {
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
   const toast = useToast();
-  const { user, setUser, chats, setChats, setSelectedChat } = ChatState();
+  const {
+    user,
+    setUser,
+    chats,
+    setChats,
+    setSelectedChat,
+    notification,
+    setNotification,
+  } = ChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const logoutHandler = () => {
@@ -129,16 +141,52 @@ function SideDrawer() {
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize={"2xl"} fontFamily={"Work sans"}>
-          HeyApp
-        </Text>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img
+            src={logo}
+            style={{ height: "30px", marginRight: "3px" }}
+            alt=""
+          />
+          <Text fontSize={"2xl"} fontFamily={"Work sans"}>
+            HeyApp
+          </Text>
+        </div>
+
         <div>
-          <Menu>
+          {/* <Menu>
             <MenuButton p={1}>
-              <BellIcon fontSize={"2xl"} m={1} />
+              <BellIcon fontSize={"2xl"} m={"1px 0 1px 1px"} />
+              <span
+                style={{
+                  backgroundColor: "#B04759",
+                  padding: "1px 6px",
+                  borderRadius: "50%",
+                  fontSize: "15px",
+                  color: "white",
+                  marginRight: "10px",
+                  marginLeft: "0",
+                }}
+              >
+                {notification.length}
+              </span>
             </MenuButton>
-            {/* <MenuList></MenuList> */}
-          </Menu>
+            <MenuList>
+              {!notification.length && "No New Messages"}
+              {notification.map((notif) => (
+                <MenuItem
+                  key={notif._id}
+                  onClick={() => {
+                    setSelectedChat(notif.chat);
+                    setNotification(notification.filter((n) => n !== notif));
+                  }}
+                >
+                  {notif.chat.isGroupChat
+                    ? `New Message in ${notif.chat.chatName}`
+                    : `New Message from ${getSender(user, notif.chat.users)}`}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu> */}
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
               <Avatar

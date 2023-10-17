@@ -126,8 +126,13 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      // localStorage.setItem("userInfo", JSON.stringify(data));
+
       setLoading(false);
+      setName("");
+      setEmail("");
+      setPassword("");
+      setPic("");
       //   navigate("/chats");
     } catch (error) {
       console.log(error);
@@ -139,6 +144,10 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
+      setName("");
+      setEmail("");
+      setPassword("");
+      setPic("");
       setLoading(false);
     }
   };

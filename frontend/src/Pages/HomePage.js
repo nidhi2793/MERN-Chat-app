@@ -13,6 +13,7 @@ import Login from "../components/Authentication/Login";
 import Signup from "../components/Authentication/Signup";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
+import logo from "../assets/logo.png";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -35,7 +36,9 @@ const HomePage = () => {
         m="5px 0 5px 0"
         borderRadius="lg"
         borderWidth="1px"
+        alignItems={"center"}
       >
+        <img src={logo} style={{ height: "40px", margin: "2px" }} />
         <Text fontSize="4xl" fontFamily="Work sans">
           HeyApp
         </Text>
